@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mengla.ticketsale.dao.IUserDao">
+    <resultMap id="BaseResultMap" type="com.mengla.ticketsale.model.User">
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
+        <result column="active_code" property="activeCode" jdbcType="VARCHAR"/>
+        <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="register_time" property="registerTime" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_id,user_name,password,gender,email,telephone,introduce,active_code,role_id,state,register_time
+    </sql>
+
+<!--    查询所用用户-->
+    <select id="searchUsers" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from users
+    </select>
+
+<!--    通过Id查询用户信息-->
+    <select id="searchUserById" resultType="com.mengla.ticketsale.model.User">
+        select
+        <include refid="Base_Column_List"></include>
+        from users
+        where user_id = #{userid}
+    </select>
+
+<!--    通过用户名查询用户信息-->
+    <select id="searchUsersByLikeName" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from users
+        where user_name like concat(concat('%',#{username},'%'))
+    </select>
+
+    <!--<insert id="insert" parameterType="com.cultivate.demo.common.model.UserInfo">
+    insert into user_info (user_id, user_name, pass_word,
+      mobile_number, sex, brithday,
+      marriage,role_id)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR},
+      #{mobileNumber,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{brithday,jdbcType=DATE},
+      #{marriage,jdbcType=CHAR},#{roleId,jdbcType=INTEGER})
+  </insert>-->
+
+<!--    添加用户-->
+    <insert id="insertUser" parameterType="com.mengla.ticketsale.model.User">
+        insert into users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName!=null">
+                user_name,
+            </if>
+            <if test="password!=null">
+                password,
+            </if>
+            <if test="gender!=null">
+                gender,
+            </if>
+            <if test="email!=null">
+                email,
+            </if>
+            <if test="telephone!=null">
+                telephone,
+            </if>
+            <if test="introduce!=null">
+                introduce,
+            </if>
+            <if test="activeCode!=null">
+                active_code,
+            </if>
+            <if test="roleId!=null">
+                role_id,
+            </if>
+            <if test="state!=null">
+                state,
+            </if>
+            <if test="registerTime!=null">
+                register_time,
+            </if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName!=null">
+                #{userName, jdbcType = VARCHAR },
+            </if>
+            <if test="password!=null">
+                #{password, jdbcType = VARCHAR },
+            </if>
+            <if test="gender!=null">
+                #{gender, jdbcType = VARCHAR },
+            </if>
+            <if test="email!=null">
+                #{email, jdbcType = VARCHAR },
+            </if>
+            <if test="telephone!=null">
+                #{telephone, jdbcType = VARCHAR },
+            </if>
+            <if test="introduce!=null">
+                #{introduce, jdbcType = VARCHAR },
+            </if>
+            <if test="activeCode!=null">
+                #{activeCode, jdbcType = VARCHAR },
+            </if>
+            <if test="roleId!=null">
+                #{roleId, jdbcType = INTEGER },
+            </if>
+            <if test="state!=null">
+                #{state, jdbcType = INTEGER },
+            </if>
+            <if test="registerTime!=null">
+                #{registerTime, jdbcType = VARCHAR },
+            </if>
+        </trim>
+    </insert>
+
+<!--    <update id="update" parameterType="com.mengla.ticketsale.model.User">-->
+<!--        update users-->
+<!--        <set>-->
+<!--            <if test="userName!=null">-->
+<!--                user_name = #{userName,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="password!=null">-->
+<!--                password = #{password,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="telephone!=null">-->
+<!--                telephone = #{telephone,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="introduce!=null">-->
+<!--                introduce = #{introduce,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        where user_id = #{userId,jdbcType=INTEGER}-->
+<!--    </update>-->
+
+<!--    修改用户信息-->
+    <update id="update" parameterType="com.mengla.ticketsale.model.User">
+        update user_info
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="introduce != null">
+                introduce = #{introduce,jdbcType=VARCHAR},
+            </if>
+            <if test="activeCode != null">
+                active_code = #{activeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null">
+                role_id = #{roleId,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="registerTime != null">
+                register_time = #{registerTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+
+    <!--<update id="update" parameterType="com.mengla.ticketsale.model.User">
+        update users
+        set user_name = #{userName,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR},
+        gender = #{gender,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        telephone = #{telephone,jdbcType=VARCHAR},
+        introduce = #{introduce,jdbcType=VARCHAR},
+        active_code = #{activeCode,jdbcType=VARCHAR},
+        role_id = #{roleId,jdbcType=INTEGER},
+        state = #{state,jdbcType=INTEGER},
+        register_time = #{registerTime,jdbcType=VARCHAR}
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>-->
+</mapper>
