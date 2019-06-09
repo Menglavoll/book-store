@@ -1,17 +1,34 @@
-package com.mengla.ticketsale.model;
+package com.mengla.bookstore.model;
 
+/**
+ * 用于添加查询的实例
+ * 根据bookId、bookName、category、minPrice和maxPrice
+ * 几个条件组合来查询
+ */
 public class Condition {
-    private String bookId;
+
+    private long bookId;
     private String bookName;
     private String category;
     private double minPrice;
     private double maxPrice;
 
-    public String getBookId() {
+    @Override
+    public String toString() {
+        return "Condition{" +
+                "bookId=" + bookId +
+                ", bookName='" + bookName + '\'' +
+                ", category='" + category + '\'' +
+                ", minPrice=" + minPrice +
+                ", maxPrice=" + maxPrice +
+                '}';
+    }
+
+    public long getBookId() {
         return bookId;
     }
 
-    public void setBookId(String bookId) {
+    public void setBookId(long bookId) {
         this.bookId = bookId;
     }
 

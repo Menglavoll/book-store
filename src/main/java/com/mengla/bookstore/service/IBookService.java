@@ -1,8 +1,8 @@
-package com.mengla.ticketsale.service;
+package com.mengla.bookstore.service;
 
-import com.mengla.ticketsale.model.Book;
-import com.mengla.ticketsale.model.Condition;
-import com.mengla.ticketsale.model.PageBooks;
+import com.mengla.bookstore.model.Book;
+import com.mengla.bookstore.model.Condition;
+import com.mengla.bookstore.model.PageBooks;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public interface IBookService {
      * @param bookId
      * @return
      */
-    public Book searchBookById(String bookId);
+    public Book searchBookById(long bookId);
 
     /**
      * 根据类别查询
@@ -41,7 +41,7 @@ public interface IBookService {
      * @param category 类别
      * @return
      */
-    public PageBooks searchBooksByPage(int currentPage, int pageSize,String category,String bookName);
+    public PageBooks searchBooksByPage(int currentPage, int pageSize, String category, String bookName);
 
     /**
      * 插入书籍

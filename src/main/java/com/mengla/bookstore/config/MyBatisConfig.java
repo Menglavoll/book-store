@@ -1,4 +1,4 @@
-package com.mengla.ticketsale.config;
+package com.mengla.bookstore.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -11,6 +11,11 @@ import javax.sql.DataSource;
 
 @Configuration
 public class MyBatisConfig {
+    /**
+     * 加载配置文件中的Spring.datasource的配置信息
+     * 生成数据库连接池
+     * @return
+     */
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
@@ -18,6 +23,11 @@ public class MyBatisConfig {
         return dataSource;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     @Bean(name = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
@@ -25,8 +35,7 @@ public class MyBatisConfig {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
         // 解决MyBatis返回HashMap时，某个字段值为null时，不会保存key
-        org.apache.ibatis.session.Configuration configuration =
-                new org.apache.ibatis.session.Configuration();
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
         configuration.setCallSettersOnNulls(true);
         sqlSessionFactoryBean.setConfiguration(configuration);
 //        sqlSessionFactoryBean.setPlugins(new Interceptor[]{pageHelper()});

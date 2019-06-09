@@ -1,10 +1,10 @@
-package com.mengla.ticketsale.service.impl;
+package com.mengla.bookstore.service.impl;
 
-import com.mengla.ticketsale.dao.IBookDao;
-import com.mengla.ticketsale.model.Book;
-import com.mengla.ticketsale.model.Condition;
-import com.mengla.ticketsale.model.PageBooks;
-import com.mengla.ticketsale.service.IBookService;
+import com.mengla.bookstore.dao.IBookDao;
+import com.mengla.bookstore.model.Book;
+import com.mengla.bookstore.model.Condition;
+import com.mengla.bookstore.model.PageBooks;
+import com.mengla.bookstore.service.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +41,7 @@ public class BookService implements IBookService {
      * @return
      */
     @Override
-    public Book searchBookById(String bookId) {
+    public Book searchBookById(long bookId) {
         return bookDao.searchBookById(bookId);
     }
 

@@ -1,13 +1,13 @@
-package com.mengla.ticketsale.dao;
+package com.mengla.bookstore.dao;
 
-import com.mengla.ticketsale.model.User;
+import com.mengla.bookstore.model.User;
 
 import java.util.List;
 
 public interface IUserDao {
     public List<User> searchUsers();
 
-    public User searchUserById(int userid);
+    public User searchUserById(long userid);
 
     public List<User> searchUsersByLikeName(String username);
 

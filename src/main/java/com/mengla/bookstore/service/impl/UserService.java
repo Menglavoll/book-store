@@ -1,8 +1,8 @@
-package com.mengla.ticketsale.service.impl;
+package com.mengla.bookstore.service.impl;
 
-import com.mengla.ticketsale.dao.IUserDao;
-import com.mengla.ticketsale.model.User;
-import com.mengla.ticketsale.service.IUserService;
+import com.mengla.bookstore.dao.IUserDao;
+import com.mengla.bookstore.model.User;
+import com.mengla.bookstore.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User searchUserById(int userid) {
+    public User searchUserById(long userid) {
         return userDao.searchUserById(userid);
     }
 

@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mengla.ticketsale.dao.IBookDao">
-    <resultMap id="BaseResultMap" type="com.mengla.ticketsale.model.Book">
-<!--        <id column="id" property="id" jdbcType="VARCHAR"/>-->
-        <result column="id" property="bookId" jdbcType="VARCHAR"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="category" property="category" jdbcType="VARCHAR"/>
+<mapper namespace="com.mengla.bookstore.dao.IBookDao">
+    <resultMap id="BaseResultMap" type="com.mengla.bookstore.model.Book">
+        <id column="book_id" property="bookId" jdbcType="BIGINT"/>
+<!--        <result column="book_id" property="bookId" jdbcType="BIGINT"/>-->
+        <result column="book_name" property="bookName" jdbcType="VARCHAR"/>
         <result column="price" property="price" jdbcType="DOUBLE"/>
         <result column="pnum" property="pnum" jdbcType="INTEGER"/>
+        <result column="category" property="category" jdbcType="VARCHAR"/>
         <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="update_time" property="updateTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER"/>
+        <result column="is_enabled" property="isEnabled" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id,name,price,pnum,category,description
+        book_id,book_name,price,pnum,category,description,create_time,update_time,is_deleted,is_enable
     </sql>
 
 <!--    条件查询-->
-    <select id="findBookByCondition" parameterType="com.mengla.ticketsale.model.Condition" resultMap="BaseResultMap">
+    <select id="findBookByCondition" parameterType="com.mengla.bookstore.model.Condition" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from book
-        where id like concat(concat('%',#{bookId,jdbcType = VARCHAR},'%'))
+        where book_id = #{bookId,jdbcType = BIGINT}
         and name like concat(concat('%',#{bookName,jdbcType = VARCHAR},'%'))
         and category like concat(concat('%',#{category,jdbcType = VARCHAR},'%'))
         and price <![CDATA[>=]]> #{minPrice,jdbcType = DOUBLE}
@@ -28,14 +32,14 @@
     </select>
 
 <!--    修改书籍信息-->
-    <update id="updateBook" parameterType="com.mengla.ticketsale.model.Book">
+    <update id="updateBook" parameterType="com.mengla.bookstore.model.Book">
         update book
         <set>
             <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
+                book_name = #{bookName,jdbcType=VARCHAR},
             </if>
             <if test="price != null">
-                price = #{price,jdbcType=INTEGER},
+                price = #{price,jdbcType=DOUBLE},
             </if>
             <if test="pnum != null">
                 pnum = #{pnum,jdbcType=INTEGER},
@@ -46,19 +50,28 @@
             <if test="description != null">
                 description = #{description,jdbcType=VARCHAR},
             </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=DATETIMEOFFSET},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=INTEGER},
+            </if>
+            <if test="isEnabled != null">
+                is_enabled = #{isEnabled,jdbcType=INTEGER},
+            </if>
         </set>
-        where id = #{bookId,jdbcType=VARCHAR}
+        where book_id = #{bookId,jdbcType=BIGINT}
     </update>
 
 <!--    添加书籍-->
-    <insert id="insertBook" parameterType="com.mengla.ticketsale.model.Book">
+    <insert id="insertBook" parameterType="com.mengla.bookstore.model.Book">
         insert into book
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="bookId!=null">
-                id,
+                book_id,
             </if>
-            <if test="name!=null">
-                name,
+            <if test="bookName!=null">
+                book_name,
             </if>
             <if test="price!=null">
                 price,
@@ -72,15 +85,26 @@
             <if test="description!=null">
                 description,
             </if>
-
+            <if test="createTime!=null ">
+                create_time,
+            </if>
+            <if test="updateTime!=null">
+                update_time,
+            </if>
+            <if test="isDeleted!=null ">
+                is_deleted,
+            </if>
+            <if test="isEnabled!=null ">
+                is_enabled,
+            </if>
         </trim>
 
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="bookId!=null">
-                #{bookId,jdbcType = VARCHAR},
+                #{bookId,jdbcType = BIGINT},
             </if>
-            <if test="name!=null">
-                #{name,jdbcType = VARCHAR},
+            <if test="bookName!=null">
+                #{bookName,jdbcType = VARCHAR},
             </if>
             <if test="price!=null">
                 #{price,jdbcType = DOUBLE},
@@ -94,7 +118,18 @@
             <if test="description!=null">
                 #{description,jdbcType = VARCHAR},
             </if>
-
+            <if test="createTime!=null">
+                #{createTime,jdbcType=DATETIMEOFFSET}
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=DATETIMEOFFSET},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=INTEGER},
+            </if>
+            <if test="isEnabled != null">
+                #{isEnabled,jdbcType=INTEGER},
+            </if>
         </trim>
     </insert>
 
@@ -110,32 +145,32 @@
         select
         <include refid="Base_Column_List"/>
         from book
-        where name like concat(concat('%',#{name,jdbcType = VARCHAR},'%'))
+        where book_name like concat(concat('%',#{bookName,jdbcType = VARCHAR},'%'))
     </select>
 
 <!--    根据书籍id检索-->
-    <select id="searchBookById" parameterType="com.mengla.ticketsale.model.Book" resultMap="BaseResultMap">
+    <select id="searchBookById" parameterType="long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from book
-        where id = #{bookId,jdbcType=VARCHAR}
+        where book_id = #{bookId,jdbcType=BIGINT}
     </select>
 
 <!--    根据书籍门类检索-->
-    <select id="searchBooksByCategory" parameterType="com.mengla.ticketsale.model.Book" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from book
-        where category like #{category,jdbcType=VARCHAR}
-    </select>
-
-<!--    分页检索-->
-    <select id="searchBooksByPage" parameterType="com.mengla.ticketsale.model.Book" resultMap="BaseResultMap">
+    <select id="searchBooksByCategory" parameterType="string" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from book
         where category like concat(concat('%',#{category,jdbcType = VARCHAR},'%'))
-        and name like concat(concat('%',#{bookName,jdbcType = VARCHAR},'%'))
+    </select>
+
+<!--    分页检索-->
+    <select id="searchBooksByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from book
+        where category like concat(concat('%',#{category,jdbcType = VARCHAR},'%'))
+        and book_name like concat(concat('%',#{bookName,jdbcType = VARCHAR},'%'))
         limit #{currentPage,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     </select>
 

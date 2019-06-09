@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mengla.bookstore.dao.ICartDao">
+    <resultMap id="ResultMap" type="com.mengla.bookstore.model.Cart">
+        <id column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="book_id" property="bookId" jdbcType="BIGINT"/>
+        <result column="boon_name" property="bookName" jdbcType="VARCHAR"/>
+        <result column="num" property="num" jdbcType="INTEGER"/>
+        <result column="count" property="count" jdbcType="DOUBLE"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_id,book_id,book_name,num,count
+    </sql>
+<!--  查询所有购物车  -->
+    <select id="findCarts" resultMap="ResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cart
+    </select>
+
+<!--  通过用户Id查询购物车  -->
+    <select id="findCartsByUserId" resultMap="ResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cart
+        where user_id = #{userId,jdbcType = BIGINT}
+    </select>
+
+    <insert id="insertCarts">
+        insert into cart
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId!=null ">
+                user_id,
+            </if>
+            <if test="bookId!=null ">
+                book_id,
+            </if>
+            <if test="bookName!=null ">
+                book_name,
+            </if>
+            <if test="num!=null">
+                num,
+            </if>
+            <if test="count!=null ">
+                count,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="com.mengla.bookstore.model.Cart" separator="=">
+                <if test="userId!=null ">
+                    #{user_id,jdbcType=BIGINT},
+                </if>
+                <if test="bookId!=null ">
+                    #{book_id,jdbcType=BIGINT},
+                </if>
+                <if test="bookName!=null ">
+                    #{book_name,jdbcType=VARCHAR},
+                </if>
+                <if test="num!=null">
+                    #{num,jdbcType=INTEGER},
+                </if>
+                <if test="count!=null ">
+                    #{count,jdbcType=DOUBLE},
+                </if>
+            </foreach>
+        </trim>
+    </insert>
+
+    <insert id="insertCart" parameterType="com.mengla.bookstore.model.Cart">
+        insert into cart
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId!=null ">
+                user_id,
+            </if>
+            <if test="bookId!=null ">
+                book_id,
+            </if>
+            <if test="bookName!=null ">
+                book_name,
+            </if>
+            <if test="num!=null">
+                num,
+            </if>
+            <if test="count!=null ">
+                count,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="userId!=null ">
+                #{user_id,jdbcType=BIGINT},
+            </if>
+            <if test="bookId!=null ">
+                #{book_id,jdbcType=BIGINT},
+            </if>
+            <if test="bookName!=null ">
+                #{book_name,jdbcType=VARCHAR},
+            </if>
+            <if test="num!=null">
+                #{num,jdbcType=INTEGER},
+            </if>
+            <if test="count!=null ">
+                #{count,jdbcType=DOUBLE},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteCart">
+        delete
+        from cart
+        where user_id = #{userId,jdbcType = BIGINT }
+        and book_id = #{bookId,jdbcType = BIGINT }
+    </delete>
+</mapper>

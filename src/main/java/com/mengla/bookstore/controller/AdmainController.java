@@ -1,7 +1,7 @@
-package com.mengla.ticketsale.controller;
+package com.mengla.bookstore.controller;
 
-import com.mengla.ticketsale.model.User;
-import com.mengla.ticketsale.service.impl.UserService;
+import com.mengla.bookstore.model.User;
+import com.mengla.bookstore.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mengla.bookstore.dao.IPackageListDao">
+    <resultMap id="ResultMap" type="com.mengla.bookstore.model.PackageList">
+        <id column="package_id" property="packageId" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="book_id" property="bookId" jdbcType="BIGINT"/>
+        <result column="book_name" property="bookName" jdbcType="VARCHAR"/>
+        <result column="num" property="num" jdbcType="INTEGER"/>
+        <result column="count" property="count" jdbcType="DOUBLE"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        package_id,order_id,book_id,book_name,num,count
+    </sql>
+    <insert id="insertPackageList" parameterType="com.mengla.bookstore.model.PackageList">
+        insert into package
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="packageId!=null ">
+                package_id,
+            </if>
+            <if test="orderId!=null ">
+                order_id,
+            </if>
+            <if test="bookId!=null ">
+                book_id,
+            </if>
+            <if test="bookName!=null ">
+                book_name,
+            </if>
+            <if test="num!=null" >
+                num,
+            </if>
+            <if test="count!=null ">
+                count,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="packageId!=null ">
+                #{packageId, jdbcType = BIGINT},
+            </if>
+            <if test="orderId!=null ">
+                #{orderId, jdbcType = BIGINT},
+            </if>
+            <if test="bookId!=null ">
+                #{bookId, jdbcType = BIGINT},
+            </if>
+            <if test="bookName!=null ">
+                #{bookName, jdbcType = VARCHAR},
+            </if>
+            <if test="num!=null" >
+                #{num, jdbcType = INTEGER},
+            </if>
+            <if test="count!=null ">
+                #{count, jdbcType = DOUBLE},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deletePackageList">
+        delete
+        from package
+        where
+        package_id = #{packageId jdbcType = BIGINT}
+    </delete>
+</mapper>

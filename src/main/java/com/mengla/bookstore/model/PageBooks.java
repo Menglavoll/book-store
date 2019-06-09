@@ -1,7 +1,10 @@
-package com.mengla.ticketsale.model;
+package com.mengla.bookstore.model;
 
 import java.util.List;
 
+/**
+ * 根据书名完成分页查询
+ */
 public class PageBooks {
 
     private String bookName;

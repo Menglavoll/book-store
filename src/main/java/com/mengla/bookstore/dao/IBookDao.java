@@ -1,7 +1,7 @@
-package com.mengla.ticketsale.dao;
+package com.mengla.bookstore.dao;
 
-import com.mengla.ticketsale.model.Book;
-import com.mengla.ticketsale.model.Condition;
+import com.mengla.bookstore.model.Book;
+import com.mengla.bookstore.model.Condition;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public interface IBookDao {
      * @param bookId
      * @return
      */
-    public Book searchBookById(String bookId);
+    public Book searchBookById(long bookId);
 
     /**
      * 根据类别查询
@@ -40,7 +40,7 @@ public interface IBookDao {
      * @param category
      * @return
      */
-    public List<Book> searchBooksByPage(int currentPage,int pageSize,String category,String bookName);
+    public List<Book> searchBooksByPage(int currentPage, int pageSize, String category, String bookName);
 
     /**
      * 添加书籍

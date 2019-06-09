@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mengla.bookstore.dao.IOrderDao">
+    <resultMap id="ResultMap" type="com.mengla.bookstore.model.Order">
+        <id column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="total" property="total" jdbcType="DOUBLE"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="payment_time" property="paymentTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="receiver" property="receiver" jdbcType="VARCHAR"/>
+        <result column="rec_mobile" property="recMobile" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Colums_List">
+        order_id,user_id,total,state,create_time,payment_time,receiver,rec_mobile,address
+    </sql>
+
+    <select id="findOrders" resultMap="ResultMap">
+        select
+        <include refid="Base_Colums_List"/>
+        from order_list
+    </select>
+
+    <select id="findOrdersByUserId" resultMap="ResultMap">
+        select
+        <include refid="Base_Colums_List"/>
+        from order_list
+        where user_id = #{userId jdbcType = BIGINT}
+    </select>
+
+    <select id="findOrderById" resultMap="ResultMap">
+        select
+        <include refid="Base_Colums_List"/>
+        from order_list
+        where order_id = #{orderId jdbcType = BIGINT}
+    </select>
+
+    <insert id="insertOrder" parameterType="com.mengla.bookstore.model.Order">
+        insert into
+        order_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null ">
+                order_id,
+            </if>
+            <if test="userId!=null ">
+                user_id,
+            </if>
+            <if test="total!=null ">
+                total,
+            </if>
+            <if test="state!=null ">
+                state,
+            </if>
+            <if test="createTime!=null ">
+                create_time,
+            </if>
+            <if test="paymentTime!=null ">
+                payment_time,
+            </if>
+            <if test="receiver!=null ">
+                receiver,
+            </if>
+            <if test="recMobile!=null ">
+                rec_mobile,
+            </if>
+            <if test="address!=null ">
+                address,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null ">
+                #{orderId,jdbcType = BIGINT},
+            </if>
+            <if test="userId!=null ">
+                #{userId,jdbcType = BIGINT},
+            </if>
+            <if test="total!=null ">
+                #{total,jdbcType = DOUBLE},
+            </if>
+            <if test="state!=null ">
+                #{state,jdbcType = INTEGER},
+            </if>
+            <if test="createTime!=null ">
+                #{createTime,jdbcType = DATETIMEOFFSET},
+            </if>
+            <if test="paymentTime!=null ">
+                #{paymentTime,jdbcType = DATETIMEOFFSET},
+            </if>
+            <if test="receiver!=null ">
+                #{receiver,jdbcType = VARCHAR},
+            </if>
+            <if test="recMobile!=null ">
+                #{recMobile,jdbcType = VARCHAR},
+            </if>
+            <if test="address!=null ">
+                #{address,jdbcType = VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateOrder" parameterType="com.mengla.bookstore.model.Order">
+        update order_list
+        <set>
+            <if test="state!=null ">
+                state = #{state,jdbcType = INTEGER},
+            </if>
+            <if test="paymentTime != null ">
+                payment_time = #{paymentTime,jdbcType = DATETIMEOFFSET},
+            </if>
+        </set>
+        where order_id = #{orderId,jdbcType = BIGINT}
+    </update>
+
+    <delete id="deleteOrder" parameterType="long">
+        delete
+        from order_list
+        where
+        order_id = #{orderId,jdbcType = BIGINT}
+    </delete>
+</mapper>

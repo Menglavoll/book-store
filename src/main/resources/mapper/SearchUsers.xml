@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mengla.ticketsale.dao.IUserDao">
-    <resultMap id="BaseResultMap" type="com.mengla.ticketsale.model.User">
+<mapper namespace="com.mengla.bookstore.dao.IUserDao">
+    <resultMap id="BaseResultMap" type="com.mengla.bookstore.model.User">
+        <id column="user_id" property="userId" jdbcType="BIGINT"/>
         <result column="user_name" property="userName" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="gender" property="gender" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
-        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
         <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
         <result column="active_code" property="activeCode" jdbcType="VARCHAR"/>
         <result column="role_id" property="roleId" jdbcType="INTEGER"/>
-        <result column="state" property="state" jdbcType="INTEGER"/>
-        <result column="register_time" property="registerTime" jdbcType="VARCHAR"/>
+        <result column="register_time" property="registerTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="update_time" property="updateTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="balance" property="balance" jdbcType="DOUBLE"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER"/>
+        <result column="is_enabled" property="isEnabled" jdbcType="INTEGER"/>
+        <result column="encryp_type" property="encrypType" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-        user_id,user_name,password,gender,email,telephone,introduce,active_code,role_id,state,register_time
+        user_id,user_name,password,gender,email,mobile,introduce,active_code,role_id,register_time,update_time,balance,is_deleted,is_enabled,encryp_type
     </sql>
 
 <!--    查询所用用户-->
@@ -26,11 +31,11 @@
     </select>
 
 <!--    通过Id查询用户信息-->
-    <select id="searchUserById" resultType="com.mengla.ticketsale.model.User">
+    <select id="searchUserById" parameterType="long" resultType="com.mengla.bookstore.model.User">
         select
         <include refid="Base_Column_List"></include>
         from users
-        where user_id = #{userid}
+        where user_id = #{userId,jdbcType=BIGINT}
     </select>
 
 <!--    通过用户名查询用户信息-->
@@ -38,7 +43,7 @@
         select
         <include refid="Base_Column_List"/>
         from users
-        where user_name like concat(concat('%',#{username},'%'))
+        where user_name like concat(concat('%',#{userName},'%'))
     </select>
 
     <!--<insert id="insert" parameterType="com.cultivate.demo.common.model.UserInfo">
@@ -51,9 +56,12 @@
   </insert>-->
 
 <!--    添加用户-->
-    <insert id="insertUser" parameterType="com.mengla.ticketsale.model.User">
+    <insert id="insertUser" parameterType="com.mengla.bookstore.model.User">
         insert into users
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId!=null ">
+                user_id,
+            </if>
             <if test="userName!=null">
                 user_name,
             </if>
@@ -66,8 +74,8 @@
             <if test="email!=null">
                 email,
             </if>
-            <if test="telephone!=null">
-                telephone,
+            <if test="mobile!=null">
+                mobile,
             </if>
             <if test="introduce!=null">
                 introduce,
@@ -78,15 +86,30 @@
             <if test="roleId!=null">
                 role_id,
             </if>
-            <if test="state!=null">
-                state,
-            </if>
             <if test="registerTime!=null">
                 register_time,
+            </if>
+            <if test="updateTime!=null">
+                update_time,
+            </if>
+            <if test="balance!=null">
+                balance,
+            </if>
+            <if test="is_deleted!=null">
+                is_deleted,
+            </if>
+            <if test="is_enabled!=null">
+                is_enabled,
+            </if>
+            <if test="encryp_type!=null">
+                encryp_type,
             </if>
         </trim>
 
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId!=null ">
+                #{userId, jdbcType = BIGINT }
+            </if>
             <if test="userName!=null">
                 #{userName, jdbcType = VARCHAR },
             </if>
@@ -99,8 +122,8 @@
             <if test="email!=null">
                 #{email, jdbcType = VARCHAR },
             </if>
-            <if test="telephone!=null">
-                #{telephone, jdbcType = VARCHAR },
+            <if test="mobile!=null">
+                #{mobile, jdbcType = VARCHAR },
             </if>
             <if test="introduce!=null">
                 #{introduce, jdbcType = VARCHAR },
@@ -111,16 +134,28 @@
             <if test="roleId!=null">
                 #{roleId, jdbcType = INTEGER },
             </if>
-            <if test="state!=null">
-                #{state, jdbcType = INTEGER },
-            </if>
             <if test="registerTime!=null">
-                #{registerTime, jdbcType = VARCHAR },
+                #{registerTime, jdbcType = DATETIMEOFFSET },
+            </if>
+            <if test="updateTime!=null">
+                #{updateTime, jdbcType = DATETIMEOFFSET },
+            </if>
+            <if test="balance!=null">
+                #{balance, jdbcType = DOUBLE },
+            </if>
+            <if test="isDeleted!=null">
+                #{isDeleted, jdbcType = INTEGER },
+            </if>
+            <if test="isEnabled!=null">
+                #{isEnabled, jdbcType = INTEGER },
+            </if>
+            <if test="encrypType!=null">
+                #{encrypType, jdbcType = INTEGER },
             </if>
         </trim>
     </insert>
 
-<!--    <update id="update" parameterType="com.mengla.ticketsale.model.User">-->
+<!--    <update id="update" parameterType="com.mengla.bookstoremodel.User">-->
 <!--        update users-->
 <!--        <set>-->
 <!--            <if test="userName!=null">-->
@@ -140,7 +175,7 @@
 <!--    </update>-->
 
 <!--    修改用户信息-->
-    <update id="update" parameterType="com.mengla.ticketsale.model.User">
+    <update id="update" parameterType="com.mengla.bookstore.model.User">
         update user_info
         <set>
             <if test="userName != null">
@@ -155,8 +190,8 @@
             <if test="email != null">
                 email = #{email,jdbcType=VARCHAR},
             </if>
-            <if test="telephone != null">
-                telephone = #{telephone,jdbcType=VARCHAR},
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
             </if>
             <if test="introduce != null">
                 introduce = #{introduce,jdbcType=VARCHAR},
@@ -167,17 +202,17 @@
             <if test="roleId != null">
                 role_id = #{roleId,jdbcType=INTEGER},
             </if>
-            <if test="state != null">
-                state = #{state,jdbcType=INTEGER},
-            </if>
             <if test="registerTime != null">
-                register_time = #{registerTime,jdbcType=VARCHAR},
+                register_time = #{registerTime,jdbcType=DATETIMEOFFSET},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=DATETIMEOFFSET},
             </if>
         </set>
-        where user_id = #{userId,jdbcType=INTEGER}
+        where user_id = #{userId,jdbcType=BIGINT}
     </update>
 
-    <!--<update id="update" parameterType="com.mengla.ticketsale.model.User">
+    <!--<update id="update" parameterType="com.mengla.bookstoremodel.User">
         update users
         set user_name = #{userName,jdbcType=VARCHAR},
         password = #{password,jdbcType=VARCHAR},

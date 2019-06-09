@@ -1,4 +1,4 @@
-package com.mengla.ticketsale.controller;
+package com.mengla.bookstore.controller;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;

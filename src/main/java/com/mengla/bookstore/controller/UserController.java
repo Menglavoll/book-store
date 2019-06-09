@@ -1,7 +1,7 @@
-package com.mengla.ticketsale.controller;
+package com.mengla.bookstore.controller;
 
-import com.mengla.ticketsale.model.User;
-import com.mengla.ticketsale.service.IUserService;
+import com.mengla.bookstore.model.User;
+import com.mengla.bookstore.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -103,14 +103,14 @@ public class UserController {
         }
 
         String gender = request.getParameter("gender");
-        String telephone = request.getParameter("telephone");
+        String mobile = request.getParameter("telephone");
 
         user.setUserName(username);
         user.setPassword(password);
         user.setGender(gender);
 
-        if (telephone!=null) {
-            user.setTelephone(telephone);
+        if (mobile!=null) {
+            user.setMobile(mobile);
         }
 
         PrintWriter out = response.getWriter();
@@ -228,7 +228,7 @@ public class UserController {
 
         String email = request.getParameter("email");
         String gender = request.getParameter("gender");
-        String telephone = request.getParameter("telephone");
+        String mobile = request.getParameter("telephone");
         String introduce = request.getParameter("introduce");
 
         User user = new User();
@@ -237,13 +237,11 @@ public class UserController {
         user.setPassword(password);
         user.setGender(gender);
         user.setEmail(email);
-        user.setTelephone(telephone);
+        user.setMobile(mobile);
         user.setIntroduce(introduce);
         user.setActiveCode(UUID.randomUUID().toString());
         user.setRoleId(2);
-        user.setState(2);
-        user.setRegisterTime(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss")
-                .format(new Date()));
+        user.setRegisterTime(new Date());
 
         insert(user);
 

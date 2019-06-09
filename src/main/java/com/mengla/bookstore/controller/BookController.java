@@ -1,9 +1,9 @@
-package com.mengla.ticketsale.controller;
+package com.mengla.bookstore.controller;
 
-import com.mengla.ticketsale.model.Book;
-import com.mengla.ticketsale.model.Condition;
-import com.mengla.ticketsale.model.PageBooks;
-import com.mengla.ticketsale.service.IBookService;
+import com.mengla.bookstore.model.Book;
+import com.mengla.bookstore.model.Condition;
+import com.mengla.bookstore.model.PageBooks;
+import com.mengla.bookstore.service.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +30,12 @@ public class BookController {
     @Autowired
     private IBookService bookService;
 
+    /**
+     * 根据书籍名称查询
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @RequestMapping(value = "/searchbooksbyname",method = RequestMethod.GET)
     public void searchBooksByName(HttpServletRequest request, HttpServletResponse response) throws IOException {
         /*response.setContentType("text/html;charset=UTF-8");
@@ -91,10 +97,8 @@ public class BookController {
         String minPrice = request.getParameter("minprice");
         String maxPrice = request.getParameter("maxprice");
 
-        if(bookid==null || "".equals(bookid)){
-            condition.setBookId("%");
-        }else {
-            condition.setBookId(bookid);
+        if(bookid!=null && !"".equals(bookid)){
+            condition.setBookId(Long.parseLong(bookid));
         }
 
         if(bookname==null || "".equals(bookname)){
@@ -125,9 +129,6 @@ public class BookController {
         String min = null;
         String max = null;
 
-        if("%".equals(bookid)){
-            condition.setBookId("");
-        }
         if("%".equals(bookname)){
             condition.setBookName("");
         }
@@ -156,10 +157,19 @@ public class BookController {
      */
     @RequestMapping(value = "/findbook",method = RequestMethod.GET)
     public void findBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        response.setContentType("text/html;charset=UTF-8");
+//        PrintWriter out = response.getWriter();
+
         String bookId = request.getParameter("bookid");
-        Book book = bookService.searchBookById(bookId);
-        request.getSession().setAttribute("book",book);
-        response.sendRedirect("/product_info.jsp");
+
+        if (bookId != null) {
+            Book book = bookService.searchBookById(Long.parseLong(bookId));
+            request.getSession().setAttribute("book",book);
+            response.sendRedirect("/product_info.jsp");
+        }else {
+            request.getSession().setAttribute("book",null);
+            response.sendRedirect("/product_info.jsp");
+        }
     }
 
     /**
@@ -172,7 +182,7 @@ public class BookController {
     public void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String bookId = request.getParameter("bookid");
 
-        Book book = bookService.searchBookById(bookId);
+        Book book = bookService.searchBookById(Long.parseLong(bookId));
         request.getSession().setAttribute("book",book);
 
         response.sendRedirect("/admin/products/edit.jsp");
@@ -204,7 +214,7 @@ public class BookController {
             return;
         }
 
-        book.setName(name);
+        book.setBookName(name);
         book.setPrice(Double.parseDouble(price));
         book.setPnum(Integer.parseInt(pnum));
         book.setCategory(category);
@@ -248,10 +258,7 @@ public class BookController {
             out.println("2s后返回！");
             response.setHeader("refresh","2;url=/admin/products/add.jsp");
         }else {
-            String bookId = UUID.randomUUID().toString();
-
-            book.setBookId(bookId);
-            book.setName(name);
+            book.setBookName(name);
             book.setPrice(Integer.parseInt(price));
             book.setPnum(Integer.parseInt(pnum));
             book.setCategory(category);
@@ -293,7 +300,7 @@ public class BookController {
         String number = request.getParameter("num");
 
         Map<Book,String> cart = (Map<Book,String>)request.getSession().getAttribute("cart");
-        Book book = bookService.searchBookById(bookid);
+        Book book = bookService.searchBookById(Long.parseLong(bookid));
 
         if (number!=null){
             if("0".equals(number)){
