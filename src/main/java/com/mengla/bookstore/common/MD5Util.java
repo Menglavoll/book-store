@@ -51,10 +51,9 @@ public class MD5Util {
             "e", "f"};
 
     public static void main(String[] args) {
-        String result = MD5Util.md5Encode("中国", "UTF-8");
+        String result = MD5Util.md5Encode("mengla", "UTF-8");
 
         System.out.println("result=" + result);
-        System.out.println(new Date());
     }
 
 }

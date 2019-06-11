@@ -6,7 +6,7 @@ function startSecond() {
 
 };
 
-function changeSecond() {
+/*function changeSecond() {
 	var second = document.getElementById("second");
 
 	var svalue = second.innerHTML;
@@ -20,7 +20,7 @@ function changeSecond() {
 	}
 
 	second.innerHTML = svalue;
-}
+}*/
 
 //获取XMLHttpRequest对象
 function getXMLHttpRequest() {

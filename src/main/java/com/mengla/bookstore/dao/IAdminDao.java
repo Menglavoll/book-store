@@ -17,4 +17,6 @@ public interface IAdminDao {
     Admin findAdminById(long adminId);
 
     Admin findAdminByMobile(String mobile);
+
+    Admin findAdminByEmail(String email);
 }

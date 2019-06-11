@@ -18,7 +18,7 @@
     </resultMap>
     
     <sql id="Base_Column_List">
-        admin_id,admin_name,mobile,password.email,gender,role_id,register_time,update_time,is_deleted,is_enbaled,encryp_type
+        admin_id,admin_name,mobile,password,email,gender,role_id,register_time,update_time,is_deleted,is_enabled,encryp_type
     </sql>
     
     <insert id="insertAdmin" parameterType="com.mengla.bookstore.model.Admin">
@@ -33,11 +33,11 @@
             <if test="mobile!=null ">
                 mobile,
             </if>
-            <if test="email!=null ">
-                email,
-            </if>
             <if test="password!=null ">
                 password,
+            </if>
+            <if test="email!=null ">
+                email,
             </if>
             <if test="gender!=null ">
                 gender,
@@ -49,7 +49,7 @@
                 register_time,
             </if>
             <if test="updateTime!=null ">
-                updateTime,
+                update_time,
             </if>
             <if test="isDeleted!=null ">
                 is_deleted,
@@ -74,7 +74,7 @@
             <if test="password!=null ">
                 #{password,jdbcType = VARCHAR},
             </if>
-            <if test="emial!=null ">
+            <if test="email!=null ">
                 #{email,jdbcType = VARCHAR},
             </if>
             <if test="gender!=null ">
@@ -166,5 +166,12 @@
         <include refid="Base_Column_List"/>
         from admin
         where mobile = #{mobile,jdbcType = VARCHAR}
+    </select>
+
+    <select id="findAdminByEmail" resultMap="ResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from admin
+        where email = #{email,jdbcType = VARCHAR}
     </select>
 </mapper>

@@ -5,7 +5,7 @@
     <resultMap id="ResultMap" type="com.mengla.bookstore.model.Cart">
         <id column="user_id" property="userId" jdbcType="BIGINT"/>
         <result column="book_id" property="bookId" jdbcType="BIGINT"/>
-        <result column="boon_name" property="bookName" jdbcType="VARCHAR"/>
+        <result column="book_name" property="bookName" jdbcType="VARCHAR"/>
         <result column="num" property="num" jdbcType="INTEGER"/>
         <result column="count" property="count" jdbcType="DOUBLE"/>
     </resultMap>
@@ -49,13 +49,13 @@
         <trim prefix="values(" suffix=")" suffixOverrides=",">
             <foreach collection="list" item="com.mengla.bookstore.model.Cart" separator="=">
                 <if test="userId!=null ">
-                    #{user_id,jdbcType=BIGINT},
+                    #{userId,jdbcType=BIGINT},
                 </if>
                 <if test="bookId!=null ">
-                    #{book_id,jdbcType=BIGINT},
+                    #{bookId,jdbcType=BIGINT},
                 </if>
                 <if test="bookName!=null ">
-                    #{book_name,jdbcType=VARCHAR},
+                    #{bookName,jdbcType=VARCHAR},
                 </if>
                 <if test="num!=null">
                     #{num,jdbcType=INTEGER},
@@ -88,13 +88,13 @@
         </trim>
         <trim prefix="values(" suffix=")" suffixOverrides=",">
             <if test="userId!=null ">
-                #{user_id,jdbcType=BIGINT},
+                #{userId,jdbcType=BIGINT},
             </if>
             <if test="bookId!=null ">
-                #{book_id,jdbcType=BIGINT},
+                #{bookId,jdbcType=BIGINT},
             </if>
             <if test="bookName!=null ">
-                #{book_name,jdbcType=VARCHAR},
+                #{bookName,jdbcType=VARCHAR},
             </if>
             <if test="num!=null">
                 #{num,jdbcType=INTEGER},

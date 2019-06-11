@@ -35,7 +35,7 @@
     <update id="updateBook" parameterType="com.mengla.bookstore.model.Book">
         update book
         <set>
-            <if test="name != null">
+            <if test="bookName != null">
                 book_name = #{bookName,jdbcType=VARCHAR},
             </if>
             <if test="price != null">

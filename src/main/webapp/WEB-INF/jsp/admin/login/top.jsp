@@ -60,7 +60,7 @@ TH {
 				background="${pageContext.request.contextPath}/admin/images/mis_01.jpg">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
-						<td width="85%" align="left">
+						<td width="70%" align="left">
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#000000">
 								<script language="JavaScript">
 								<!--
@@ -92,7 +92,7 @@ TH {
 								// -->
 								</script> </font>
 						</td>
-						<td width="15%">
+						<td width="30%">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
 									<td width="16"
@@ -104,7 +104,20 @@ TH {
 									<td width="155" valign="bottom"
 										background="${pageContext.request.contextPath}/admin/images/mis_05b.jpg">
 										<font color="blue"><a href="javascript:void(0)"
-											onclick="exitSys()">退出系统</a> </font></td>
+											onclick="exitSys()">退出系统</a> </font>
+									</td>
+									<td width="155" valign="bottom"
+										background="${pageContext.request.contextPath}/admin/images/mis_05b.jpg">
+										<font color="blue"><a href="home.jsp">主页</a> </font>
+									</td>
+									<td width="155" valign="bottom"
+										background="${pageContext.request.contextPath}/admin/images/mis_05b.jpg">
+										<font color="blue"><a href="/admin/upadateAdmin">欢迎：${admin.adminName}</a> </font>
+									</td>
+									<td width="155" valign="bottom"
+										background="${pageContext.request.contextPath}/admin/images/mis_05b.jpg">
+										<font color="blue"><a href="/admin/unlogin">注销</a> </font>
+									</td>
 									<td width="10" align="right"
 										background="${pageContext.request.contextPath}/admin/images/mis_05b.jpg">
 										<img

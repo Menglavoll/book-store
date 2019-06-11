@@ -30,7 +30,7 @@
 								src="images/IconTexto_WebDev_009.jpg" width="128" height="128" />
 							</td>
 							<td style="padding-top:30px"><font
-								style="font-weight:bold; color:#FF0000">注册成功,别忘记激活帐户啊</font><br />
+								style="font-weight:bold; color:#FF0000">注册成功!</font><br />
 								<br />
 <%--								<a href="${pageContext.request.contextPath}/home.jsp"><span id="second">5</span>秒后自动为您转跳回首页</a>--%>
 								<a href="${pageContext.request.contextPath}/home.jsp"> 请点击此处跳转到首页！ </a>

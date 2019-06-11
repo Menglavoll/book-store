@@ -17,4 +17,6 @@ public interface IAdminService {
     Admin findAdminById(long adminId);
 
     Admin findAdminByMobile(String mobile);
+
+    int registerAdmin(Admin admin);
 }

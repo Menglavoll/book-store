@@ -5,13 +5,16 @@ import com.mengla.bookstore.model.User;
 import java.util.List;
 
 public interface IUserService {
-    public List<User> searchUsers();
 
-    public User searchUserById(long userid);
+    User searchUserByMobile(String mobile);
 
-    public List<User> searchUsersByLikeName(String userName);
+    List<User> searchUsers();
 
-    public int insertUser(User user);
+    User searchUserById(long userid);
 
-    public int update(User user);
+    List<User> searchUsersByLikeName(String userName);
+
+    int insertUser(User user);
+
+    int update(User user);
 }

@@ -1,6 +1,7 @@
 package com.mengla.bookstore.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -20,7 +21,7 @@ public class User implements Serializable {
     private Date updateTime;
     private double balance;
     private int isDeleted;
-    private int isEnable;
+    private int isEnabled;
     private int encrypType;
 
     @Override
@@ -39,7 +40,7 @@ public class User implements Serializable {
                 ", updateTime=" + updateTime +
                 ", balance=" + balance +
                 ", isDeleted=" + isDeleted +
-                ", isEnable=" + isEnable +
+                ", isEnabled=" + isEnabled +
                 ", encrypType=" + encrypType +
                 '}';
     }
@@ -148,12 +149,12 @@ public class User implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public int getIsEnable() {
-        return isEnable;
+    public int getIsEnabled() {
+        return isEnabled;
     }
 
-    public void setIsEnable(int isEnable) {
-        this.isEnable = isEnable;
+    public void setIsEnabled(int isEnabled) {
+        this.isEnabled = isEnabled;
     }
 
     public int getEncrypType() {

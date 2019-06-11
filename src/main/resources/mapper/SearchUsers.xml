@@ -27,14 +27,14 @@
     <select id="searchUsers" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from users
+        from user
     </select>
 
 <!--    通过Id查询用户信息-->
-    <select id="searchUserById" parameterType="long" resultType="com.mengla.bookstore.model.User">
+    <select id="searchUserById" parameterType="long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>
-        from users
+        from user
         where user_id = #{userId,jdbcType=BIGINT}
     </select>
 
@@ -42,22 +42,20 @@
     <select id="searchUsersByLikeName" parameterType="string" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from users
-        where user_name like concat(concat('%',#{userName},'%'))
+        from user
+        where user_name like concat(concat('%',#{userName,jdbcType = VARCHAR},'%'))
     </select>
 
-    <!--<insert id="insert" parameterType="com.cultivate.demo.common.model.UserInfo">
-    insert into user_info (user_id, user_name, pass_word,
-      mobile_number, sex, brithday,
-      marriage,role_id)
-    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR},
-      #{mobileNumber,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{brithday,jdbcType=DATE},
-      #{marriage,jdbcType=CHAR},#{roleId,jdbcType=INTEGER})
-  </insert>-->
+    <select id="searchUserByMobile" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where mobile = #{mobile,jdbcType = VARCHAR}
+    </select>
 
 <!--    添加用户-->
     <insert id="insertUser" parameterType="com.mengla.bookstore.model.User">
-        insert into users
+        insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId!=null ">
                 user_id,
@@ -95,20 +93,20 @@
             <if test="balance!=null">
                 balance,
             </if>
-            <if test="is_deleted!=null">
+            <if test="isDeleted!=null">
                 is_deleted,
             </if>
-            <if test="is_enabled!=null">
+            <if test="isEnabled!=null">
                 is_enabled,
             </if>
-            <if test="encryp_type!=null">
+            <if test="encrypType!=null">
                 encryp_type,
             </if>
         </trim>
 
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId!=null ">
-                #{userId, jdbcType = BIGINT }
+                #{userId, jdbcType = BIGINT },
             </if>
             <if test="userName!=null">
                 #{userName, jdbcType = VARCHAR },
@@ -155,28 +153,9 @@
         </trim>
     </insert>
 
-<!--    <update id="update" parameterType="com.mengla.bookstoremodel.User">-->
-<!--        update users-->
-<!--        <set>-->
-<!--            <if test="userName!=null">-->
-<!--                user_name = #{userName,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="password!=null">-->
-<!--                password = #{password,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="telephone!=null">-->
-<!--                telephone = #{telephone,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="introduce!=null">-->
-<!--                introduce = #{introduce,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--        </set>-->
-<!--        where user_id = #{userId,jdbcType=INTEGER}-->
-<!--    </update>-->
-
 <!--    修改用户信息-->
     <update id="update" parameterType="com.mengla.bookstore.model.User">
-        update user_info
+        update user
         <set>
             <if test="userName != null">
                 user_name = #{userName,jdbcType=VARCHAR},
@@ -211,19 +190,4 @@
         </set>
         where user_id = #{userId,jdbcType=BIGINT}
     </update>
-
-    <!--<update id="update" parameterType="com.mengla.bookstoremodel.User">
-        update users
-        set user_name = #{userName,jdbcType=VARCHAR},
-        password = #{password,jdbcType=VARCHAR},
-        gender = #{gender,jdbcType=VARCHAR},
-        email = #{email,jdbcType=VARCHAR},
-        telephone = #{telephone,jdbcType=VARCHAR},
-        introduce = #{introduce,jdbcType=VARCHAR},
-        active_code = #{activeCode,jdbcType=VARCHAR},
-        role_id = #{roleId,jdbcType=INTEGER},
-        state = #{state,jdbcType=INTEGER},
-        register_time = #{registerTime,jdbcType=VARCHAR}
-        where user_id = #{userId,jdbcType=INTEGER}
-    </update>-->
 </mapper>

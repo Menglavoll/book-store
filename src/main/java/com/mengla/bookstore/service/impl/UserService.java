@@ -5,6 +5,8 @@ import com.mengla.bookstore.model.User;
 import com.mengla.bookstore.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,6 +15,11 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserDao userDao;
+
+    @Override
+    public User searchUserByMobile(String mobile){
+        return userDao.searchUserByMobile(mobile);
+    }
 
     @Override
     public List<User> searchUsers() {
@@ -30,8 +37,17 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public int insertUser(User user) {
-        return userDao.insertUser(user);
+        if (user!=null){
+            if (userDao.searchUserByMobile(user.getMobile())!=null){
+                return 0;
+            }else {
+                return userDao.insertUser(user);
+            }
+        }else {
+            return 0;
+        }
     }
 
     @Override

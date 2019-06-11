@@ -5,13 +5,15 @@ import com.mengla.bookstore.model.User;
 import java.util.List;
 
 public interface IUserDao {
-    public List<User> searchUsers();
+    List<User> searchUsers();
 
-    public User searchUserById(long userid);
+    User searchUserById(long userid);
 
-    public List<User> searchUsersByLikeName(String username);
+    List<User> searchUsersByLikeName(String username);
 
-    public int insertUser(User user);
+    int insertUser(User user);
     
-    public int update(User user);
+    int update(User user);
+
+    User searchUserByMobile(String mobile);
 }

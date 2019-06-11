@@ -5,6 +5,8 @@ import com.mengla.bookstore.model.Admin;
 import com.mengla.bookstore.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -50,6 +52,25 @@ public class AdminService implements IAdminService {
 
     @Override
     public Admin findAdminByMobile(String mobile) {
-        return findAdminByMobile(mobile);
+        return adminDao.findAdminByMobile(mobile);
+    }
+
+    /**
+     * 管理员注册服务
+     * @param admin
+     * @return
+     */
+    @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public int registerAdmin(Admin admin) {
+
+        Admin findAdminByMobile = adminDao.findAdminByMobile(admin.getMobile());
+        Admin findAdminByEmail = adminDao.findAdminByEmail(admin.getEmail());
+
+        if(findAdminByMobile != null || findAdminByEmail != null ){
+            return 0;
+        }else {
+            return adminDao.insertAdmin(admin);
+        }
     }
 }

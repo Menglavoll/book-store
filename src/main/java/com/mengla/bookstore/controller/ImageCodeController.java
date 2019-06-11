@@ -16,7 +16,7 @@ import java.util.Random;
 
 @Controller
 @RequestMapping(value = "/check")
-public class imageCodeController{
+public class ImageCodeController {
 
     // 集合中保存所有成语
     private List<String> words = new ArrayList<String>();
