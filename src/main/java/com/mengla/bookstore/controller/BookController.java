@@ -15,13 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-// /book/booksearch
-// /book/booksearchbylikename
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/book")
@@ -38,23 +32,6 @@ public class BookController {
      */
     @RequestMapping(value = "/searchbooksbyname",method = RequestMethod.GET)
     public void searchBooksByName(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        /*response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String bookName = request.getParameter("name");
-
-        if(bookName == null || "".equals(bookName)){
-            response.sendRedirect("/home.jsp");
-        }else{
-            List<Book> books = bookService.searchBooksByLikeName(bookName);
-            if(books==null){
-                out.println("对不起！没有找到该书籍的相关信息！！我们会尽快更新书籍库！！！");
-                out.println("2s后返回主页！");
-                response.setHeader("refresh","2;url=/home.jsp");
-            }else {
-                request.getSession().setAttribute("books",books);
-                response.sendRedirect("/product_list.jsp");
-            }
-        }*/
 
         String bookName = request.getParameter("name");
 
@@ -114,7 +91,7 @@ public class BookController {
         }
 
         if (minPrice==null || "".equals(minPrice)){
-            condition.setMinPrice(0);
+            condition.setMinPrice(0.1);
         }else {
             condition.setMinPrice(Double.parseDouble(minPrice));
         }
@@ -135,15 +112,13 @@ public class BookController {
         if("%".equals(category)){
             condition.setCategory("");
         }
-        if("".equals(minPrice) || minPrice == null){
-            min = "";
-        }
+
         if("".equals(maxPrice) || maxPrice == null){
             max = "";
             condition.setMaxPrice(0);
         }
         request.getSession().setAttribute("books",books);
-        request.getSession().setAttribute("nim",min);
+        request.getSession().setAttribute("nim",minPrice);
         request.getSession().setAttribute("max",max);
         request.getSession().setAttribute("condition",condition);
         response.sendRedirect("/admin/products/list.jsp");
@@ -246,27 +221,50 @@ public class BookController {
         PrintWriter out = response.getWriter();
 
         String name = request.getParameter("name");
+        if(name == null || name.equals("")){
+            out.println("book name can not null!2s after return!");
+            response.setHeader("refresh","2;url=/admin/products/add.jsp");
+            return;
+        }
         String price = request.getParameter("price");
+
+        if(price == null || price.equals("")){
+            out.println("price can not null!2s after return!");
+            response.setHeader("refresh","2;url=/admin/products/add.jsp");
+            return;
+        }
         String pnum = request.getParameter("pnum");
+        if(pnum == null || pnum.equals("")){
+            out.println("pnum can not null!2s after return!");
+            response.setHeader("refresh","2;url=/admin/products/add.jsp");
+            return;
+        }
         String category = request.getParameter("category");
+        if(category == null || category.equals("")){
+            out.println("category can not null!2s after return!");
+            response.setHeader("refresh","2;url=/admin/products/add.jsp");
+            return;
+        }
         String description = request.getParameter("description");
 
         Book book = new Book();
 
-        if (name==null || price==null || pnum == null || category == null){
-            out.println("商品名称、商品价格、商品数量、商品类别均不能为空！");
-            out.println("2s后返回！");
-            response.setHeader("refresh","2;url=/admin/products/add.jsp");
+        book.setBookName(name);
+        book.setPrice(Double.parseDouble(price));
+        book.setPnum(Integer.parseInt(pnum));
+        book.setCategory(category);
+        book.setDescription(description);
+        book.setCreateTime(new Date());
+        book.setUpdateTime(new Date());
+        book.setIsDeleted(0);
+        book.setIsEnabled(1);
+
+        if(bookService.insertBook(book) > 0){
+            out.println("Successful!2s after return!");
+            response.setHeader("refresh","2;url=/book/booksearch");
         }else {
-            book.setBookName(name);
-            book.setPrice(Integer.parseInt(price));
-            book.setPnum(Integer.parseInt(pnum));
-            book.setCategory(category);
-            book.setDescription(description);
-
-            bookService.insertBook(book);
-
-            response.sendRedirect("/book/booksearch");
+            out.println("Error!2s after return!");
+            response.setHeader("refresh","2;url=/admin/products/add.jsp");
         }
     }
 
@@ -285,61 +283,13 @@ public class BookController {
     }
 
     /**
-     * 购物车功能
-     * @param request
-     * @param response
-     * @throws IOException
-     */
-    @RequestMapping(value = "/addcart",method = RequestMethod.GET)
-    public void addCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-
-        String bookid = request.getParameter("bookid");
-        String number = request.getParameter("num");
-
-        Map<Book,String> cart = (Map<Book,String>)request.getSession().getAttribute("cart");
-        Book book = bookService.searchBookById(Long.parseLong(bookid));
-
-        if (number!=null){
-            if("0".equals(number)){
-                cart.remove(book);
-                request.getSession().setAttribute("cart",cart);
-                response.sendRedirect("/cart.jsp");
-                return;
-            }else {
-                cart.put(book,number);
-                request.getSession().setAttribute("cart",cart);
-                response.sendRedirect("/cart.jsp");
-                return;
-            }
-        }
-
-        int num = 1;
-
-        if (cart==null){
-            cart = new HashMap<>();
-        }
-
-        if (cart.containsKey(book)){
-            num = Integer.parseInt(cart.get(book))+1;
-        }
-
-        cart.put(book,num+"");
-
-        request.getSession().setAttribute("cart",cart);
-        response.sendRedirect("/cart.jsp");
-    }
-
-    /**
      * 完成按门类检索
      * @param request
      * @param response
      * @throws IOException
      */
     @RequestMapping(value = "/category",method = RequestMethod.GET)
-    public void category(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void category(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         int pageSize = 5;
 

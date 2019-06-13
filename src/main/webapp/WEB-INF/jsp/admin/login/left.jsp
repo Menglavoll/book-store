@@ -32,7 +32,7 @@
 		
 		d.add(12,1,'销售榜单','/admin/products/download.jsp','','mainFrame')
 		
-		d.add(21,2,'订单查看','/admin/orders/list.jsp','','mainFrame');
+		d.add(21,2,'订单查看','/order/findall','','mainFrame');
 	
 		
 		document.write(d);

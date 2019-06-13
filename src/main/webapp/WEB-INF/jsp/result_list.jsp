@@ -47,7 +47,7 @@
 
 												<div class="divlisttitle">
 													<a href="product_info.jsp">
-														书名:${book.name}
+														书名:${book.bookName}
 														<br />
 														售价:${book.price}
 													</a>

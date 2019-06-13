@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 
@@ -20,60 +21,48 @@
 						<a href="${pageContext.request.contextPath}/home.jsp">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&gt;&nbsp;&nbsp;&nbsp;订单详细信息
 					</div>
 
-
-
 					<table cellspacing="0" class="infocontent">
 						<tr>
 							<td>
 								<table width="100%" border="0" cellspacing="0">
 									<tr>
 										<td>
-											<p>订单编号:001</p></td>
+											<p>订单编号:${order.orderPackage}</p></td>
 									</tr>
 									<tr>
 										<td>
 											<table cellspacing="1" class="carttable">
 												<tr>
-													<td width="10%">序号</td>
-													<td width="40%">商品名称</td>
-													<td width="10%">价格</td>
-													<td width="10%">数量</td>
-													<td width="10%">小计</td>
+													<td style="text-align: center" width="15%">序号</td>
+													<td style="text-align: center" width="25%">商品名称</td>
+													<td style="text-align: center" width="20%">价格</td>
+													<td style="text-align: center" width="20%">数量</td>
+													<td style="text-align: center" width="20%">小计</td>
 
 												</tr>
 											</table>
 											<table width="100%" border="0" cellspacing="0">
-												<tr>
-													<td width="10%">1</td>
-													<td width="40%">Thinking In Java</td>
-													<td width="10%">100</td>
-													<td width="10%">10</td>
-													<td width="10%">1000</td>
-
-												</tr>
+												<c:forEach items="${packages}" var="packagelist" varStatus="vs">
+													<tr>
+														<td style="text-align: center" width="15%">${vs.count}</td>
+														<td style="text-align: center" width="25%">${packagelist.bookName}</td>
+														<td style="text-align: center" width="20%">${packagelist.price}</td>
+														<td style="text-align: center" width="20%">${packagelist.num}</td>
+														<td style="text-align: center" width="20%">${packagelist.count}</td>
+													</tr>
+												</c:forEach>
 											</table>
-											<table width="100%" border="0" cellspacing="0">
-												<tr>
-													<td width="10%">2</td>
-													<td width="40%">Thinking In Java</td>
-													<td width="10%">100</td>
-													<td width="10%">10</td>
-													<td width="10%">1000</td>
-
-												</tr>
-											</table>
-
 											<table cellspacing="1" class="carttable">
 												<tr>
 													<td style="text-align:right; padding-right:40px;"><font
-														style="color:#FF0000">合计：&nbsp;&nbsp;1000</font></td>
+														style="color:#FF0000">合计：&nbsp;&nbsp;${order.total}</font></td>
 												</tr>
 											</table>
 
 											<p>
-												收货地址：xxxx&nbsp;&nbsp;&nbsp;&nbsp;<br />
-												收货人：&nbsp;&nbsp;&nbsp;&nbsp;tom&nbsp;&nbsp;&nbsp;&nbsp;<br />
-												联系方式：13888888888&nbsp;&nbsp;&nbsp;&nbsp;
+												收货地址：${order.address}&nbsp;&nbsp;&nbsp;&nbsp;<br />
+												收货人：&nbsp;&nbsp;&nbsp;&nbsp;${order.receiver}&nbsp;&nbsp;&nbsp;&nbsp;<br />
+												联系方式：${order.recMobile}&nbsp;&nbsp;&nbsp;&nbsp;
 
 											</p>
 											<hr>
@@ -86,9 +75,7 @@
 								</table>
 							</td>
 
-
 						</tr>
-
 
 					</table>
 				</td>
@@ -96,10 +83,7 @@
 		</table>
 	</div>
 
-
-
 	<jsp:include page="foot.jsp" />
-
 
 </body>
 </html>

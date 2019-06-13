@@ -21,7 +21,7 @@
 
 				<td><div style="text-align:right; margin:5px 10px 5px 0px">
 						<a href="${pageContext.request.contextPath}/home.jsp">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&gt;&nbsp;&nbsp;&nbsp;<a
-							href="${pageContext.request.contextPath}/product_list.jsp">&nbsp;${book.category}</a>&nbsp;&nbsp;&nbsp;&nbsp;&gt;&nbsp;&nbsp;&nbsp;&nbsp;${book.name}
+							href="${pageContext.request.contextPath}/product_list.jsp">&nbsp;${book.category}</a>&nbsp;&nbsp;&nbsp;&nbsp;&gt;&nbsp;&nbsp;&nbsp;&nbsp;${book.bookName}
 					</div>
 
 
@@ -41,13 +41,13 @@
 											</div>
 
 											<div style="text-align:center; margin-top:25px">
-												<a href="${pageContext.request.contextPath}/book/addcart?bookid=${book.bookId}">
+												<a href="${pageContext.request.contextPath}/cart/add?bookid=${book.bookId}">
 													<img src="images/buybutton.gif" border="0" /> 
 												</a>
 											</div></td>
 										<td style="padding:20px 5px 5px 5px"><img
 											src="images/miniicon3.gif" width="16" height="13" /><font
-											class="bookname">&nbsp;&nbsp;${book.name}</font>
+											class="bookname">&nbsp;&nbsp;${book.bookName}</font>
 
 											<hr />售价：<font color="#FF0000">￥${book.price}</font>
 											<hr /> 类别：${book.category}
@@ -65,9 +65,7 @@
 		</table>
 	</div>
 
-
 	<jsp:include page="foot.jsp" />
-
 
 </body>
 </html>

@@ -1,13 +1,10 @@
-package com.mengla.bookstore.dao;
+package com.mengla.bookstore.service;
 
 import com.mengla.bookstore.model.Cart;
 
 import java.util.List;
 
-public interface ICartDao {
-
-    int insertCart(Cart cart);
-
+public interface ICartService {
     /**
      * 查询所有购物车
      * @return
@@ -28,6 +25,8 @@ public interface ICartDao {
      */
     int insertCarts(List<Cart> carts);
 
+    int insertCart(Cart cart);
+
     /**
      * 修改数据
      * @param cart
@@ -43,5 +42,7 @@ public interface ICartDao {
      */
     int deleteCart(long userId, long bookId);
 
-    Cart findCart(long userId, long bookId);
+    Cart findCart(long userId,long bookId);
+
+    int deleteCarts(List<Cart> carts);
 }

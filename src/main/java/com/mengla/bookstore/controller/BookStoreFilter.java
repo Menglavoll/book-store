@@ -20,9 +20,19 @@ public class BookStoreFilter implements Filter {
         User user = (User)req.getSession().getAttribute("user");
         Admin admin = (Admin)req.getSession().getAttribute("admin");
 
-        if(addr.contains("modifyuserinfo") && user == null){
-            resp.sendRedirect("/login.jsp");
-        } else if (addr.contains("admin/login/home") && admin == null){
+        if( (addr.contains("modifyuserinfo") || addr.contains("cart")
+        || addr.contains("order") || addr.contains("MyAccount")
+                || addr.contains("pay") ) && user == null){
+
+            if ( ( addr.contains("order/findall") || addr.contains("admin/orders/list") ) && admin != null){
+                chain.doFilter(request,response);
+            }else {
+
+                resp.sendRedirect("/login.jsp");
+            }
+
+        } else if ( (addr.contains("admin/login/") || addr.contains("admin/orders/")
+                || addr.contains("admin/products/") ) && admin == null){
             resp.sendRedirect("/adminlogin.jsp");
         }else {
             chain.doFilter(request,response);

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -35,21 +36,6 @@
 								height="6" />&nbsp;&nbsp;&nbsp;&nbsp; <a href="${pageContext.request.contextPath}/user/unlogin">用戶退出</a></td>
 						</tr>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 					</table>
 				</td>
 				<td><div style="text-align:right; margin:5px 10px 5px 0px">
@@ -57,57 +43,47 @@
 							href="myAccount.jsp">&nbsp;我的帐户</a>&nbsp;&nbsp;&nbsp;&nbsp;&gt;&nbsp;&nbsp;&nbsp;&nbsp;订单查询
 					</div>
 
-
-
-
-
 					<table cellspacing="0" class="infocontent">
 						<tr>
-							<td style="padding:20px"><p>欢迎${u.userName}光临商城！</p>
+							<td style="padding:20px"><p>欢迎${user.userName}光临商城！</p>
 								<p>
-									您有<font style="color:#FF0000">xx</font>个订单
+									您有<font style="color:#FF0000">${ordersize}</font>个订单
 								</p>
 								<table width="100%" border="0" cellspacing="0" class="tableopen">
 									<tr>
 										<td bgcolor="#A3E6DF" class="tableopentd01">订单号</td>
 										<td bgcolor="#A3D7E6" class="tableopentd01">收件人</td>
-										<td bgcolor="#A3CCE6" class="tableopentd01">订单时间</td>
+										<td bgcolor="#A3CCE6" class="tableopentd01">订单创建时间</td>
 										<td bgcolor="#A3B6E6" class="tableopentd01">状态</td>
 										<td bgcolor="#A3E2E6" class="tableopentd01">操作</td>
 									</tr>
+									<c:if test="${ not empty orders}">
+										<c:forEach items="${orders}" var="order">
+											<tr>
+												<td class="tableopentd02">${order.orderPackage}</td>
 
-
-
-									<tr>
-										<td class="tableopentd02">001</td>
-
-										<td class="tableopentd02">tom</td>
-										<td class="tableopentd02">2012-10-10</td>
-										<td class="tableopentd02">未支付</td>
-										<td class="tableopentd03"><a href="orderInfo.jsp">查看</a>&nbsp;&nbsp;
-											<a href="#">刪除</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<td class="tableopentd02">002</td>
-
-										<td class="tableopentd02">张三</td>
-										<td class="tableopentd02">2014-10-10</td>
-										<td class="tableopentd02">已支付</td>
-										<td class="tableopentd03"><a href="orderInfo.jsp">查看</a>&nbsp;&nbsp;
-											<a href="#">刪除</a>
-										</td>
-									</tr>
+												<td class="tableopentd02">${order.receiver}</td>
+												<td class="tableopentd02">${order.createTime}</td>
+												<td class="tableopentd02">${order.state == 0 ? "未支付" : "已支付"}</td>
+												<td class="tableopentd03"><a href="/order/orderinfo?orderPackage=${order.orderPackage}">查看</a>&nbsp;&nbsp;
+													<a href="#">刪除</a>
+												</td>
+											</tr>
+										</c:forEach>
+									</c:if>
+									<c:if test="${empty orders}">
+										<tr>
+											<td class="tableopentd02">您还没有订单！赶快去购物创建订单吧！</td>
+										</tr>
+									</c:if>
 								</table>
 							</td>
 						</tr>
-					</table></td>
+					</table>
+				</td>
 			</tr>
 		</table>
 	</div>
-
-
 
 	<div id="divfoot">
 		<table width="100%" border="0" cellspacing="0">
@@ -127,7 +103,6 @@
 			</tr>
 		</table>
 	</div>
-
 
 </body>
 </html>

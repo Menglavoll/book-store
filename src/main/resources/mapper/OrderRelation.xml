@@ -12,11 +12,19 @@
         <result column="receiver" property="receiver" jdbcType="VARCHAR"/>
         <result column="rec_mobile" property="recMobile" jdbcType="VARCHAR"/>
         <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="order_package" property="orderPackage" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Colums_List">
-        order_id,user_id,total,state,create_time,payment_time,receiver,rec_mobile,address
+        order_id,user_id,total,state,create_time,payment_time,receiver,rec_mobile,address,order_package
     </sql>
+
+    <select id="findOrderByOrder" resultMap="ResultMap">
+        select
+        <include refid="Base_Colums_List"/>
+        from order_list
+        where order_package = #{orderPackage,jdbcType = INTEGER}
+    </select>
 
     <select id="findOrders" resultMap="ResultMap">
         select
@@ -69,6 +77,9 @@
             <if test="address!=null ">
                 address,
             </if>
+            <if test="orderPackage!=null ">
+                order_package,
+            </if>
         </trim>
         <trim prefix="values(" suffix=")" suffixOverrides=",">
             <if test="orderId != null ">
@@ -97,6 +108,9 @@
             </if>
             <if test="address!=null ">
                 #{address,jdbcType = VARCHAR},
+            </if>
+            <if test="orderPackage!=null ">
+                #{orderPackage,jdbcType = INTEGER},
             </if>
         </trim>
     </insert>

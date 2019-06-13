@@ -27,18 +27,16 @@
 							</td>
 							<td style="padding-top:30px"><font
 								style="font-weight:bold; color:#FF0000">订单生成成功</font><br /> <br />
-								<a href="${pageContext.request.contextPath}/home.jsp">点击此处回到首页</a></td>
+								<a href="/order/find">点击此处查看订单</a></td>
 						</tr>
 					</table>
-					<h1>&nbsp;</h1></td>
+					<h1>&nbsp;</h1>
+				</td>
 			</tr>
 		</table>
 	</div>
 
-
-
 	<jsp:include page="foot.jsp" />
-
 
 </body>
 </html>

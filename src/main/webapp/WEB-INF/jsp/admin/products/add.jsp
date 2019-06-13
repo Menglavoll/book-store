@@ -1,14 +1,58 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <HTML>
 <HEAD>
 <meta http-equiv="Content-Language" content="zh-cn">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<LINK href="${pageContext.request.contextPath}/admin/css/Style.css"
-	type="text/css" rel="stylesheet">
-
+<LINK href="${pageContext.request.contextPath}/admin/css/Style.css" type="text/css" rel="stylesheet">
 
 </HEAD>
+<script type="text/javascript">
+	window.onload = function () {
+		document.getElementById("bookname").onblur =function () {
+			var bookname = this.value;
+			var msg_bookname = document.getElementById("msg_bookname");
 
+			if (bookname == null || bookname == ""){
+				document.getElementById("add").setAttribute("disabled","true");
+				msg_bookname.innerHTML = "<font color='red'>书名不能为空！</font>";
+			} else {
+				document.getElementById("add").removeAttribute("disabled");
+			}
+
+		}
+		document.getElementById("price").onblur = function () {
+			var price = this.value;
+			var msg_price = document.getElementById("msg_price");
+			if (price == null || price == ""){
+				document.getElementById("add").setAttribute("disabled","true");
+				msg_price.innerHTML = "<font color='red'>价格不能为空！</font>";
+			} else {
+				document.getElementById("add").removeAttribute("disabled");
+			}
+		}
+		document.getElementById("pnum").onblur = function () {
+			var pnum = this.value;
+			var msg_pnum = document.getElementById("msg_pnum");
+			if (pnum == null || pnum == ""){
+				document.getElementById("add").setAttribute("disabled","true");
+				msg_pnum.innerHTML = "<font color='red'>库存不能为空！</font>";
+			} else {
+				document.getElementById("add").removeAttribute("disabled");
+			}
+		}
+		document.getElementById("category").onblur = function () {
+			var category = this.value;
+			var msg_category = document.getElementById("msg_category");
+			if (category == null || category == ""){
+				document.getElementById("add").setAttribute("disabled","true");
+				msg_category.innerHTML = "<font color='red'>类别未选！</font>";
+			} else {
+				document.getElementById("add").removeAttribute("disabled");
+			}
+		}
+	}
+</script>
 <body>
 	<form id="userAction_save_do" name="Form1"
 		action="/book/addbook" method="post"
@@ -21,28 +65,27 @@
 					height="26"><strong><STRONG>添加商品</STRONG> </strong>
 				</td>
 			</tr>
-
-
 			<tr>
 				<td align="center" bgColor="#f5fafe" class="ta_01">商品名称：</td>
-				<td class="ta_01" bgColor="#ffffff"><input type="text"
-					name="name" class="bg"/>
+				<td class="ta_01" bgColor="#ffffff">
+					<input id="bookname" type="text" name="name" class="bg"/>
+					<span id="msg_bookname"></span>
 				</td>
 				<td align="center" bgColor="#f5fafe" class="ta_01">商品价格：</td>
-				<td class="ta_01" bgColor="#ffffff"><input type="text"
-					name="price" 
-					class="bg" />
+				<td class="ta_01" bgColor="#ffffff">
+					<input id="price" type="text" name="price" class="bg" />
+					<span id="msg_price"></span>
 				</td>
 			</tr>
 			<tr>
 				<td align="center" bgColor="#f5fafe" class="ta_01">商品数量：</td>
-				<td class="ta_01" bgColor="#ffffff"><input type="text"
-					name="pnum" 
-					class="bg" />
+				<td class="ta_01" bgColor="#ffffff">
+					<input id="pnum" type="text" name="pnum" class="bg" />
+					<span id="msg_pnum"></span>
 				</td>
 				<td align="center" bgColor="#f5fafe" class="ta_01">商品类别：</td>
-				<td class="ta_01" bgColor="#ffffff"><select name="category"
-					id="category">
+				<td class="ta_01" bgColor="#ffffff">
+					<select name="category" id="category">
 						<option value="" selected="selected">--选择商品类加--</option>
 						<option value="文学">文学</option>
 						<option value="生活">生活</option>
@@ -58,11 +101,10 @@
 						<option value="科技">科技</option>
 						<option value="考试">考试</option>
 						<option value="生活百科">生活百科</option>
-				</select>
+					</select>
+					<span id="msg_category"></span>
 				</td>
 			</tr>
-
-
 			<tr>
 				<td align="center" bgColor="#f5fafe" class="ta_01">商品图片：</td>
 				<td class="ta_01" bgColor="#ffffff" colSpan="3">
@@ -70,37 +112,31 @@
 					type="file" name="upload" size="30" value=""/>
 				</td>
 			</tr>
-			<TR>
-				<TD class="ta_01" align="center" bgColor="#f5fafe">商品描述：</TD>
-				<TD class="ta_01" bgColor="#ffffff" colSpan="3">
+			<tr>
+				<td class="ta_01" align="center" bgColor="#f5fafe">商品描述：</td>
+				<td class="ta_01" bgColor="#ffffff" colSpan="3">
 				<textarea
 						name="description" cols="30" rows="3" 
 						style="WIDTH: 96%"></textarea>
-				</TD>
-			</TR>
-			<TR>
+				</td>
+			</tr>
+			<tr>
 				<td align="center" colSpan="4" class="sep1"><img
 					src="${pageContext.request.contextPath}/admin/images/shim.gif">
 				</td>
-			</TR>
-
-
+			</tr>
 			<tr>
 				<td class="ta_01" style="WIDTH: 100%" align="center"
 					bgColor="#f5fafe" colSpan="4">
-					
-					
-						
-					<input type="submit" class="button_ok" value="确定">	
+
+					<input id="add" type="submit" class="button_ok" value="确定">
 						
 					<FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT>
-					
-					
-					
+
 					<input type="reset" value="重置" class="button_cancel">
 
-					<FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT> <INPUT
-					class="button_ok" type="button" onclick="history.go(-1)" value="返回" />
+					<FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT>
+					<input class="button_ok" type="button" onclick="history.go(-1)" value="返回" >
 					<span id="Label1">
 					
 					</span>

@@ -16,7 +16,7 @@
         <result column="is_enabled" property="isEnabled" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-        book_id,book_name,price,pnum,category,description,create_time,update_time,is_deleted,is_enable
+        book_id,book_name,price,pnum,category,description,create_time,update_time,is_deleted,is_enabled
     </sql>
 
 <!--    条件查询-->
@@ -25,7 +25,7 @@
         <include refid="Base_Column_List"/>
         from book
         where book_id = #{bookId,jdbcType = BIGINT}
-        and name like concat(concat('%',#{bookName,jdbcType = VARCHAR},'%'))
+        and book_name like concat(concat('%',#{bookName,jdbcType = VARCHAR},'%'))
         and category like concat(concat('%',#{category,jdbcType = VARCHAR},'%'))
         and price <![CDATA[>=]]> #{minPrice,jdbcType = DOUBLE}
         and price <![CDATA[<=]]> #{maxPrice,jdbcType = DOUBLE}
@@ -119,7 +119,7 @@
                 #{description,jdbcType = VARCHAR},
             </if>
             <if test="createTime!=null">
-                #{createTime,jdbcType=DATETIMEOFFSET}
+                #{createTime,jdbcType=DATETIMEOFFSET},
             </if>
             <if test="updateTime != null">
                 #{updateTime,jdbcType=DATETIMEOFFSET},

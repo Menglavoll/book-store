@@ -17,4 +17,6 @@ public interface IOrderDao {
     int updateOrder(Order order);
 
     int deleteOrder(long orderId);
+
+    Order findOrderByOrder(int orderPackage);
 }

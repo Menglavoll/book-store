@@ -41,7 +41,7 @@ public class UserController {
         // 验证图片验证码
         String ckcode = request.getParameter("ckcode");
         String ckcode_session = (String)request.getSession().getAttribute("checkcode_session");
-        if (ckcode == null || ckcode == "" || ckcode.equals(ckcode_session)){
+        if (ckcode == null || ckcode.equals("") || ckcode.equals(ckcode_session)){
             out.println("验证码输入有误！2s后返回！！");
             response.setHeader("refresh","2;url=/modifyuserinfo.jsp");
             return;
@@ -93,12 +93,11 @@ public class UserController {
      * 用户登录
      * @param request
      * @param response
-     * @throws ServletException
      * @throws IOException
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public void login(HttpServletRequest request,HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
@@ -107,7 +106,7 @@ public class UserController {
         String ckcode = request.getParameter("ckcode");
         String session_ckcode = (String)request.getSession().getAttribute("checkcode_session");
 
-        if(ckcode == null || ckcode == "" || !ckcode.equals(session_ckcode)){
+        if(ckcode == null || ckcode.equals("") || !ckcode.equals(session_ckcode)){
             out.println("验证码输入有误！2s后返回登录！");
             response.setHeader("refresh","2;url=/login.jsp");
             return;
@@ -121,16 +120,15 @@ public class UserController {
         if(user != null){
             if(user.getMobile().equals(mobile) &&
                     user.getPassword().equals(MD5Util.md5Encode(password,"UTF-8"))){
-                out.println("登陆成功！2s后返回主页！");
                 request.getSession().setAttribute("user",user);
-                response.setHeader("refresh","2;url="+request.getContextPath()+"/home.jsp");
+                response.sendRedirect("/home.jsp");
             }else {
-                request.setAttribute("pwd_msg","手机号或密码不正确！");
-                request.getRequestDispatcher("/login.jsp").forward(request,response);
+                out.println("手机号或密码不正确！2s后返回登录！");
+                response.setHeader("refresh","2;url=/login.jsp");
             }
         }else {
-            request.setAttribute("pwd_msg","改手机号尚未注册！");
-            request.getRequestDispatcher("/login.jsp").forward(request,response);
+            out.println("手机号或密码不正确！2s后返回登录！");
+            response.setHeader("refresh","2;url=/login.jsp");
         }
     }
 
@@ -144,12 +142,9 @@ public class UserController {
     public void unlogin(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
 
-        out.println("注销成功！2s后跳转到主页！");
-
-        request.getSession().invalidate();
-        response.setHeader("refresh","2;url="+request.getContextPath()+"/home.jsp");
+        request.getSession().removeAttribute("user");
+        response.sendRedirect("/home.jsp");
     }
 
     /**

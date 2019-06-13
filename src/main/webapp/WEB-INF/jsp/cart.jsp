@@ -24,7 +24,7 @@
 				alert("购买数量不能大于库存数量！");
 				num=totalCount;
 			}
-			location.href="${pageContext.request.contextPath}/book/addcart?bookid="+id+"&num="+num;
+			location.href="${pageContext.request.contextPath}/cart/add?bookid="+id+"&num="+num;
 		}
 	</script>
 
@@ -33,15 +33,13 @@
 <body class="main">
 
 	<jsp:include page="head.jsp" />
-
 	<jsp:include page="menu_search.jsp" />
-
 
 	<div id="divpagecontent">
 		<table width="100%" border="0" cellspacing="0">
 			<tr>
-
-				<td><div style="text-align:right; margin:5px 10px 5px 0px">
+				<td>
+					<div style="text-align:right; margin:5px 10px 5px 0px">
 						<a href="${pageContext.request.contextPath}/home.jsp">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&gt;&nbsp;&nbsp;&nbsp;&nbsp;购物车
 					</div>
 
@@ -71,7 +69,7 @@
 												<table width="100%" border="0" cellspacing="0">
 													<tr>
 														<td width="10%">${vs.count}</td>
-														<td width="30%">${entry.key.name}</td>
+														<td width="30%">${entry.key.bookName}</td>
 
 														<td width="10%">${entry.key.price}</td>
 														<td width="20%">
@@ -88,16 +86,14 @@
 
 														</td>
 														<td width="10%">${entry.key.pnum}</td>
-														<td width="10%">${entry.value*entry.key.price}</td>
+														<td width="10%">${entry.key.count}</td>
 
-														<td width="10%"><a href="${pageContext.request.contextPath}/book/addcart?bookid=${entry.key.bookId}&num=0"
+														<td width="10%"><a href="${pageContext.request.contextPath}/cart/add?bookid=${entry.key.bookId}&num=0"
 															style="color:#FF0000; font-weight:bold">X</a></td>
 													</tr>
 												</table>
-											<c:set var="sum" value="${sum+entry.value*entry.key.price }"> </c:set>
+											<c:set var="sum" value="${sum+entry.key.count }"> </c:set>
 										</c:forEach>
-
-
 											<table cellspacing="1" class="carttable">
 												<tr>
 													<td style="text-align:right; padding-right:40px;"><font
@@ -107,7 +103,7 @@
 											</table>
 											<div style="text-align:right; margin-top:10px">
 												<a
-													href="product_list.jsp"><img
+													href="/book/category"><img
 													src="images/gwc_jx.gif" border="0" />
 												</a>
 
@@ -126,11 +122,6 @@
 			</tr>
 		</table>
 	</div>
-
-
-
 	<jsp:include page="foot.jsp" />
-
-
 </body>
 </html>

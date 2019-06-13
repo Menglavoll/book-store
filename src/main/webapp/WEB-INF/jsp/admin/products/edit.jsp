@@ -41,7 +41,7 @@
 			<tr>
 				<td align="center" bgColor="#f5fafe" class="ta_01">商品名称：</td>
 				<td class="ta_01" bgColor="#ffffff"><input type="text"
-					name="name" class="bg" value="${book.name}" /></td>
+					name="name" class="bg" value="${book.bookName}" /></td>
 				<td align="center" bgColor="#f5fafe" class="ta_01">商品价格：</td>
 				<td class="ta_01" bgColor="#ffffff"><input type="text"
 					name="price" class="bg" value="${book.price}" /></td>

@@ -19,6 +19,7 @@ public class Order implements Serializable {
     private String receiver;
     private String recMobile;
     private String address;
+    private int orderPackage;
 
     @Override
     public String toString() {
@@ -32,7 +33,16 @@ public class Order implements Serializable {
                 ", receiver='" + receiver + '\'' +
                 ", recMobile='" + recMobile + '\'' +
                 ", address='" + address + '\'' +
+                ", orderPackage=" + orderPackage +
                 '}';
+    }
+
+    public int getOrderPackage() {
+        return orderPackage;
+    }
+
+    public void setOrderPackage(int orderPackage) {
+        this.orderPackage = orderPackage;
     }
 
     public long getOrderId() {

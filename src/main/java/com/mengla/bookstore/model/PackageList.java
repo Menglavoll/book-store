@@ -7,20 +7,22 @@ package com.mengla.bookstore.model;
  */
 public class PackageList {
     private long packageId;
-    private long orderId;
+    private long orderPackage;
     private long bookId;
     private String bookName;
     private int num;
+    private double price;
     private double count;
 
     @Override
     public String toString() {
         return "PackageList{" +
                 "packageId=" + packageId +
-                ", orderId=" + orderId +
+                ", orderPackage=" + orderPackage +
                 ", bookId=" + bookId +
                 ", bookName='" + bookName + '\'' +
                 ", num=" + num +
+                ", price=" + price +
                 ", count=" + count +
                 '}';
     }
@@ -33,12 +35,12 @@ public class PackageList {
         this.packageId = packageId;
     }
 
-    public long getOrderId() {
-        return orderId;
+    public long getOrderPackage() {
+        return orderPackage;
     }
 
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
+    public void setOrderPackage(long orderPackage) {
+        this.orderPackage = orderPackage;
     }
 
     public long getBookId() {
@@ -63,6 +65,14 @@ public class PackageList {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public double getCount() {

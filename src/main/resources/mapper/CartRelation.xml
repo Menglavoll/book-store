@@ -3,15 +3,25 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mengla.bookstore.dao.ICartDao">
     <resultMap id="ResultMap" type="com.mengla.bookstore.model.Cart">
-        <id column="user_id" property="userId" jdbcType="BIGINT"/>
+        <id column="cart_id" property="cartId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
         <result column="book_id" property="bookId" jdbcType="BIGINT"/>
         <result column="book_name" property="bookName" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="DOUBLE"/>
+        <result column="pnum" property="pnum" jdbcType="INTEGER"/>
         <result column="num" property="num" jdbcType="INTEGER"/>
         <result column="count" property="count" jdbcType="DOUBLE"/>
     </resultMap>
     <sql id="Base_Column_List">
-        user_id,book_id,book_name,num,count
+        cart_id,user_id,book_id,book_name,price,pnum,num,count
     </sql>
+
+    <select id="findCart" resultMap="ResultMap">
+        select <include refid="Base_Column_List"/>
+        from cart
+        where user_id = #{userId,jdbcType = BIGINT} and book_id = #{bookId,jdbcType = BIGINT}
+    </select>
+
 <!--  查询所有购物车  -->
     <select id="findCarts" resultMap="ResultMap">
         select
@@ -27,6 +37,24 @@
         where user_id = #{userId,jdbcType = BIGINT}
     </select>
 
+    <update id="updateCart" parameterType="com.mengla.bookstore.model.Cart">
+        update cart
+        <set>
+            <if test="price!=null">
+                price = #{price,jdbcType = DOUBLE},
+            </if>
+            <if test="num!=null ">
+                num = #{num,jdbcType = INTEGER},
+            </if>
+            <if test="pnum!=null ">
+                pnum = #{pnum,jdbcType = INTEGER},
+            </if>
+            <if test="count!=null ">
+                count = #{count,jdbcType = DOUBLE},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType = BIGINT} and book_id = #{bookId,jdbcType = BIGINT}
+    </update>
     <insert id="insertCarts">
         insert into cart
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -39,6 +67,12 @@
             <if test="bookName!=null ">
                 book_name,
             </if>
+            <if test="price!=null ">
+                price,
+            </if>
+            <if test="pnum!=null ">
+                pnum,
+            </if>
             <if test="num!=null">
                 num,
             </if>
@@ -47,7 +81,7 @@
             </if>
         </trim>
         <trim prefix="values(" suffix=")" suffixOverrides=",">
-            <foreach collection="list" item="com.mengla.bookstore.model.Cart" separator="=">
+            <foreach collection="List" item="com.mengla.bookstore.model.Cart" separator="=">
                 <if test="userId!=null ">
                     #{userId,jdbcType=BIGINT},
                 </if>
@@ -56,6 +90,12 @@
                 </if>
                 <if test="bookName!=null ">
                     #{bookName,jdbcType=VARCHAR},
+                </if>
+                <if test="price!=null ">
+                    #{price,jdbcType = DOUBLE},
+                </if>
+                <if test="pnum!==null">
+                    #{pnum,jdbcType = INTEGER},
                 </if>
                 <if test="num!=null">
                     #{num,jdbcType=INTEGER},
@@ -79,6 +119,12 @@
             <if test="bookName!=null ">
                 book_name,
             </if>
+            <if test="price!=null ">
+                price,
+            </if>
+            <if test="pnum!=null ">
+                pnum,
+            </if>
             <if test="num!=null">
                 num,
             </if>
@@ -95,6 +141,12 @@
             </if>
             <if test="bookName!=null ">
                 #{bookName,jdbcType=VARCHAR},
+            </if>
+            <if test="price!=null ">
+                #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="pnum!=null">
+                #{pnum,jdbcType=INTEGER},
             </if>
             <if test="num!=null">
                 #{num,jdbcType=INTEGER},

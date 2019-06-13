@@ -1,10 +1,10 @@
-package com.mengla.bookstore.dao;
+package com.mengla.bookstore.service;
 
 import com.mengla.bookstore.model.PackageList;
 
 import java.util.List;
 
-public interface IPackageListDao {
+public interface IPackageService {
     /**
      * 增加包裹
      * @param packageList

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <html>
 <head>
@@ -106,18 +107,24 @@ TH {
 										<font color="blue"><a href="javascript:void(0)"
 											onclick="exitSys()">退出系统</a> </font>
 									</td>
-									<td width="155" valign="bottom"
+									<%--<td width="155" valign="bottom"
 										background="${pageContext.request.contextPath}/admin/images/mis_05b.jpg">
-										<font color="blue"><a href="home.jsp">主页</a> </font>
-									</td>
-									<td width="155" valign="bottom"
-										background="${pageContext.request.contextPath}/admin/images/mis_05b.jpg">
-										<font color="blue"><a href="/admin/upadateAdmin">欢迎：${admin.adminName}</a> </font>
-									</td>
-									<td width="155" valign="bottom"
-										background="${pageContext.request.contextPath}/admin/images/mis_05b.jpg">
-										<font color="blue"><a href="/admin/unlogin">注销</a> </font>
-									</td>
+										<font color="blue"><a href="/home.jsp">主页</a> </font>
+									</td>--%>
+									<c:if test="${not empty admin}">
+										<%--<td width="155" valign="bottom"
+											background="${pageContext.request.contextPath}/admin/images/mis_05b.jpg">
+											<font color="blue"><a href="/admin/return">主页</a> </font>
+										</td>--%>
+										<td width="155" valign="bottom"
+											background="${pageContext.request.contextPath}/admin/images/mis_05b.jpg">
+											<font color="blue"><a href="/admin/upadateAdmin">欢迎：${admin.adminName}</a> </font>
+										</td>
+										<td width="155" valign="bottom"
+											background="${pageContext.request.contextPath}/admin/images/mis_05b.jpg">
+											<font color="blue"><a href="/admin/unlogin">注销</a> </font>
+										</td>
+									</c:if>
 									<td width="10" align="right"
 										background="${pageContext.request.contextPath}/admin/images/mis_05b.jpg">
 										<img

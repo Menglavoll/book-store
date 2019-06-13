@@ -47,7 +47,7 @@
 									商品编号</td>
 								<td class="ta_01" bgColor="#ffffff">
 									<input type="text"
-									name="bookid" size="15" value="${condition.bookId}" class="bg" />
+									name="bookid" size="15" value="${condition.bookId == 0 ? "" : condition.bookId }" class="bg" />
 								</td>
 								<td height="22" align="center" bgColor="#f5fafe" class="ta_01">
 									类别：</td>
@@ -75,7 +75,7 @@
 								<td height="22" align="center" bgColor="#f5fafe" class="ta_01">
 									商品名称：</td>
 								<td class="ta_01" bgColor="#ffffff"><input type="text"
-									name="name" size="15" value="${condition.bookName}" id="Form1_userName" class="bg" />
+									name="name" size="15" value="${condition.bookName == "%" ? "" : condition.bookName}" id="Form1_userName" class="bg" />
 								</td>
 								<td height="22" align="center" bgColor="#f5fafe" class="ta_01">
 									价格区间(元)：</td>
@@ -138,7 +138,7 @@
 									<td style="CURSOR: hand; HEIGHT: 22px" align="center"
 										width="23">${book.bookId}</td>
 									<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-										width="18%">${book.name}</td>
+										width="18%">${book.bookName}</td>
 									<td style="CURSOR: hand; HEIGHT: 22px" align="center"
 										width="8%">${book.price}</td>
 									<td style="CURSOR: hand; HEIGHT: 22px" align="center"

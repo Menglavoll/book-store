@@ -22,6 +22,20 @@ public class AdmainController {
     private IAdminService adminService;
 
     /**
+     * 管理员返回主页
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping(value = "return",method = RequestMethod.GET)
+    public void returnHome(HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
+        response.setContentType("text/html;charset=UTF-8");
+
+        out.println("2s after return to home page");
+        response.setHeader("refresh","2;url=/home.jsp");
+    }
+
+    /**
      * 管理员注销
      * @param request
      * @param response
@@ -30,7 +44,7 @@ public class AdmainController {
     @RequestMapping(value = "/unlogin",method = RequestMethod.GET)
     public void adminUnlogin(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        request.getSession().invalidate();
+        request.getSession().removeAttribute("admin");
         response.sendRedirect("/home.jsp");
     }
 
@@ -52,7 +66,7 @@ public class AdmainController {
         String checkcode_session = (String)request.getSession().getAttribute("checkcode_session");
 
         if(!ckcode.equals(checkcode_session)){
-            out.println("验证码checkcode不正确！2s后返回！");
+            out.println("The check code is error! 2s after return!");
             response.setHeader("refresh","2;url="+request.getContextPath()+"/adminlogin.jsp");
             return;
         }
@@ -63,18 +77,15 @@ public class AdmainController {
 
         if(admin != null){
             if(admin.getPassword().equals(MD5Util.md5Encode(password,"UTF-8"))){
-                out.println("登陆成功！2s后返回管理员主页！");
                 request.getSession().setAttribute("admin",admin);
-                response.setHeader("refresh","2;url="+request.getContextPath()+"/admin/login/home.jsp");
+                response.sendRedirect("/admin/login/home.jsp");
             }else {
-                out.println("密码password不正确！2s后返回！");
+                out.println("The password is error!2s after return!");
                 response.setHeader("refresh","200;url="+request.getContextPath()+"/adminlogin.jsp");
-                /*request.setAttribute("pwd_msg","密码不正确！");
-                request.getRequestDispatcher("/adminlogin.jsp").forward(request,response);*/
                 return;
             }
         }else {
-            out.println("手机号mobile不正确！2s后返回！");
+            out.println("The mobile is error!2s after return!");
             response.setHeader("refresh","2;url="+request.getContextPath()+"/adminlogin.jsp");
             return;
         }
@@ -97,7 +108,7 @@ public class AdmainController {
         String imgcode = request.getParameter("imgcode");
         String checkcode_session = (String)request.getSession().getAttribute("checkcode_session");
         if (!imgcode.equals(checkcode_session)){
-            out.println("验证码checkcode不正确！2s后返回！");
+            out.println("The check code is error! 2s after return!");
             response.setHeader("refresh","2;url="+request.getContextPath()+"/adminregister.jsp");
             return;
         }
@@ -105,28 +116,28 @@ public class AdmainController {
         // 验证密码
         String password = request.getParameter("password");
         String repassword = request.getParameter("repassword");
-        if (password == null || password == "" || repassword == null || repassword == "" || !password.equals(repassword)){
-            out.println("密码password输入有误！2s后返回！");
+        if (password == null || password.equals("") || repassword == null || repassword.equals("") || !password.equals(repassword)){
+            out.println("The password is error!2s after return!");
             response.setHeader("refresh","2;url="+request.getContextPath()+"/adminregister.jsp");
             return;
         }
 
         // 验证手机号、邮箱和昵称
         String mobile = request.getParameter("mobile");
-        if( mobile == null || mobile == "" ){
-            out.println("手机号mobile不能为空！2s后返回！");
+        if( mobile == null || mobile.equals("") ){
+            out.println("The mobile is error!2s after return!");
             response.setHeader("refresh","2;url="+request.getContextPath()+"/adminregister.jsp");
             return;
         }
         String email = request.getParameter("email");
-        if(email == null || email == ""){
-            out.println("email不能为空！2s后返回！");
+        if(email == null || email.equals("")){
+            out.println("The emsil is error!2s after return!");
             response.setHeader("refresh","2;url="+request.getContextPath()+"/adminregister.jsp");
             return;
         }
         String adminname = request.getParameter("adminname");
-        if( adminname == null || adminname == ""){
-            out.println("昵称adminname不能为空！2s后返回！");
+        if( adminname == null || adminname.equals("") ){
+            out.println("The nickname is error!2s after return!");
             response.setHeader("refresh","2;url="+request.getContextPath()+"/adminregister.jsp");
             return;
         }
